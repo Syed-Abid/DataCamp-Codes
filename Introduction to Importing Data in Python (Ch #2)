@@ -1,0 +1,145 @@
+1. Parse the first sheet by index. In doing so, skip the first row of data and name the columns 'Country' and 'AAM due to War (2002)' using the argument names. 
+The values passed to skiprows and names all need to be of type 'list'.
+2. Parse the second sheet by index. In doing so, parse only the first column with the usecols parameter, skip the first row and rename the column 'Country'. 
+The argument passed to usecols also needs to be of type 'list'.
+
+# Parse the first sheet and rename the columns: df1
+df1 = xls.parse(0, skiprows=[0], names=('Country','AAM due to War (2002)'))
+
+# Print the head of the DataFrame df1
+print(df1.head())
+
+# Parse the first column of the second sheet and rename the column: df2
+df2 = xls.parse(1, usecols=[0], skiprows=[0], names=['Country'])
+
+# Print the head of the DataFrame df2
+print(df2.head())
+
+# Importing SAS/Stata files
+#SAS stands for 'Statistical Analysis System' and Stata is a combination of "Statistics" and "data".
+#SAS is mostly used in business analytics and biostatistics 
+3. Import the module SAS7BDAT from the library sas7bdat.
+4. In the context of the file 'sales.sas7bdat', load its contents to a DataFrame df_sas, using the method to_data_frame() on the object file.
+5. Print the head of the DataFrame df_sas.
+6. Execute your entire script to produce a histogram plot!
+
+# Import sas7bdat package
+from sas7bdat import SAS7BDAT
+
+# Save file to a DataFrame: df_sas
+with SAS7BDAT('sales.sas7bdat') as file:
+    df_sas = file.to_data_frame()
+
+# Print head of DataFrame
+print(df_sas.head())
+
+# Plot histogram of DataFrame features
+pd.DataFrame.hist(df_sas[['P']])
+plt.ylabel('count')
+plt.show()
+
+7. Use pd.read_stata() to load the file 'disarea.dta' into the DataFrame df.
+8. Print the head of the DataFrame df.
+9. Visualize your results by plotting a histogram of the column disa10.
+
+# Import pandas
+import pandas as pd
+
+# Load Stata file into a pandas DataFrame: df
+df = pd.read_stata("disarea.dta")
+
+# Print the head of the DataFrame df
+print(df.head())
+
+# Plot histogram of one column of the DataFrame
+pd.DataFrame.hist(df[['disa10']])
+plt.xlabel('Extent of disease')
+plt.ylabel('Number of countries')
+plt.show()
+
+
+10. Import the package h5py.
+11. Assign the name of the file to the variable file.
+12. Load the file as read only into the variable data.
+13. Print the datatype of data.
+14. Print the names of the groups in the HDF5 file 'LIGO_data.hdf5'.
+
+# Import packages
+import numpy as np
+import h5py
+
+# Assign filename: file
+file = 'LIGO_data.hdf5'
+
+# Load file: data
+data = h5py.File('LIGO_data.hdf5', 'r')
+
+# Print the datatype of the loaded file
+print(type(data))
+
+# Print the keys of the file
+for key in data.keys():
+    print(key)
+15. Assign the HDF5 group data['strain'] to group.
+16. In the for loop, print out the keys of the HDF5 group in group.
+17. Assign the time series data data['strain']['Strain'] to a NumPy array called strain.
+18. Set num_samples equal to 10000, the number of time points we wish to sample.
+19. Execute the rest of the code to produce a plot of the time series data in LIGO_data.hdf5.
+
+# Get the HDF5 group: group
+group = data['strain']
+
+# Check out keys of group
+for key in group.keys():
+    print(key)
+
+# Set variable equal to time series data: strain
+strain = np.array(data['strain']['Strain'])
+
+# Set number of time points to sample: num_samples
+num_samples = 10000
+
+# Set time vector
+time = np.arange(0, 1, 1/num_samples)
+
+# Plot data
+plt.plot(time, strain[:num_samples])
+plt.xlabel('GPS Time (s)')
+plt.ylabel('strain')
+plt.show()
+
+20. Import the package scipy.io.
+21. Load the file 'albeck_gene_expression.mat' into the variable mat; do so using the function scipy.io.loadmat().
+22. Use the function type() to print the datatype of mat to the IPython shell.
+
+# Import package
+import scipy.io
+
+# Load MATLAB file: mat
+filename = 'albeck_gene_expression.mat'
+mat = scipy.io.loadmat(filename)
+# Print the datatype type of mat
+print(type(mat))
+
+23. Use the method .keys() on the dictionary mat to print the keys. 
+24. Most of these keys (in fact the ones that do NOT begin and end with '__') are variables from the corresponding MATLAB environment.
+25. Print the type of the value corresponding to the key 'CYratioCyt' in mat. Recall that mat['CYratioCyt'] accesses the value.
+26. Print the shape of the value corresponding to the key 'CYratioCyt' using the numpy function shape().
+
+# Print the keys of the MATLAB dictionary
+print(mat.keys())
+
+# Print the type of the value corresponding to the key 'CYratioCyt'
+print(type(mat['CYratioCyt']))
+
+# Print the shape of the value corresponding to the key 'CYratioCyt'
+print(np.shape(mat['CYratioCyt']))
+
+# Subset the array and plot it
+data = mat['CYratioCyt'][25, 5:]
+fig = plt.figure()
+plt.plot(data)
+plt.xlabel('time (min.)')
+plt.ylabel('normalized fluorescence (measure of expression)')
+plt.show()
+
