@@ -24,4 +24,132 @@ table_names = engine.table_names()
 # Print the table names to the shell
 print(table_names)
 
+7. Open the engine connection as con using the method connect() on the engine.
+8. Execute the query that selects ALL columns from the Album table. Store the results in rs.
+9. Store all of your query results in the DataFrame df by applying the fetchall() method to the results rs.
+10. Close the connection!
+
+# Import packages
+from sqlalchemy import create_engine
+import pandas as pd
+
+# Create engine: engine
+engine = create_engine('sqlite:///Chinook.sqlite')
+
+# Open engine connection: con
+con = engine.connect()
+
+# Perform query: rs
+rs = con.execute('SELECT * FROM Album')
+
+# Save results of the query to DataFrame: df
+df = pd.DataFrame(rs.fetchall())
+
+# Close connection
+con.close()
+
+# Print head of DataFrame df
+print(df.head())
+
+
+11. Execute the SQL query that selects the columns LastName and Title from the Employee table. Store the results in the variable rs.
+12. Apply the method fetchmany() to rs in order to retrieve 3 of the records. Store them in the DataFrame df.
+13. Using the rs object, set the DataFrame's column names to the corresponding names of the table columns.
+
+# Open engine in context manager
+# Perform query and save results to DataFrame: df
+with engine.connect() as con:
+    rs = con.execute('SELECT LastName, Title FROM Employee')
+    df = pd.DataFrame(rs.fetchmany(size=3))
+    df.columns = rs.keys()
+
+# Print the length of the DataFrame df
+print(len(df))
+
+# Print the head of the DataFrame df
+print(df.head())
+
+14. Complete the argument of create_engine() so that the engine for the SQLite database 'Chinook.sqlite' is created.
+15. Execute the query that selects all records from the Employee table where 'EmployeeId' is greater than or equal to 6. Use the >= operator and assign the results to rs.
+16. Apply the method fetchall() to rs in order to fetch all records in rs. Store them in the DataFrame df.
+17. Using the rs object, set the DataFrame's column names to the corresponding names of the table columns.
+
+# Create engine: engine
+engine = create_engine('sqlite:///Chinook.sqlite')
+
+# Open engine in context manager
+# Perform query and save results to DataFrame: df
+with engine.connect() as con:
+    rs = con.execute('SELECT * FROM Employee WHERE EmployeeId >= 6')
+    df = pd.DataFrame(rs.fetchall())
+    df.columns = rs.keys()
+
+# Print the head of the DataFrame df
+print(df.head())
+
+18. Using the function create_engine(), create an engine for the SQLite database Chinook.sqlite and assign it to the variable engine.
+19. In the context manager, execute the query that selects all records from the Employee table and orders them in increasing order by the column BirthDate. 
+Assign the result to rs.
+20. In a call to pd.DataFrame(), apply the method fetchall() to rs in order to fetch all records in rs. Store them in the DataFrame df.
+21. Set the DataFrame's column names to the corresponding names of the table columns.
+
+# Create engine: engine
+engine = create_engine('sqlite:///Chinook.sqlite')
+
+# Open engine in context manager
+with engine.connect() as con:
+    rs = con.execute('SELECT * FROM Employee ORDER BY Birthdate')
+    df = pd.DataFrame(rs.fetchall())
+
+    # Set the DataFrame's column names
+    df.columns = rs.keys()
+
+# Print head of DataFrame
+print(df.head())
+
+22. Import the pandas package using the alias pd.
+23. Using the function create_engine(), create an engine for the SQLite database Chinook.sqlite and assign it to the variable engine.
+24. Use the pandas function read_sql_query() to assign to the variable df the DataFrame of results from the following query: select all records from the table Album.
+25. The remainder of the code is included to confirm that the DataFrame created by this method is equal to that created by the previous method that you learned.
+
+# Import packages
+from sqlalchemy import create_engine
+import pandas as pd
+
+# Create engine: engine
+engine = create_engine('sqlite:///Chinook.sqlite')
+
+# Execute query and store records in DataFrame: df
+df = pd.read_sql_query('SELECT * FROM Album', engine)
+
+# Print head of DataFrame
+print(df.head())
+
+# Open engine in context manager and store query result in df1
+with engine.connect() as con:
+    rs = con.execute("SELECT * FROM Album")
+    df1 = pd.DataFrame(rs.fetchall())
+    df1.columns = rs.keys()
+
+# Confirm that both methods yield the same result
+print(df.equals(df1))
+
+26. Using the function create_engine(), create an engine for the SQLite database Chinook.sqlite and assign it to the variable engine.
+27. Use the pandas function read_sql_query() to assign to the variable df the DataFrame of results from the following query: 
+select all records from the Employee table where the EmployeeId is greater than or equal to 6 and 
+ordered by BirthDate (make sure to use WHERE and ORDER BY in this precise order).
+
+# Import packages
+from sqlalchemy import create_engine
+import pandas as pd
+
+# Create engine: engine
+engine = create_engine('sqlite:///Chinook.sqlite')
+
+# Execute query and store records in DataFrame: df
+df = pd.read_sql_query('SELECT * FROM Employee WHERE EmployeeId >= 6 ORDER BY Birthdate',engine)
+
+# Print head of DataFrame
+print(df.head())
+
 
