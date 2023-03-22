@@ -232,3 +232,120 @@ a_tags = soup.find_all('a')
 for link in a_tags:
     print(link.get('href'))
     
+40. Load the JSON 'a_movie.json' into the variable json_data within the context provided by the with statement. To do so, use the function json.load() within the 
+context manager.
+41. Use a for loop to print all key-value pairs in the dictionary json_data. Recall that you can access a value in a dictionary using the syntax: dictionary[key].
+
+# Load JSON: json_data
+with open("a_movie.json") as json_file:
+    json_data = json.load(json_file)
+
+# Print each key-value pair in json_data
+for k in json_data.keys():
+    print(k + ': ', json_data[k])
+    
+42. Import the requests package.
+43. Assign to the variable url the URL of interest in order to query 'http://www.omdbapi.com' for the data corresponding to the movie The Social Network. 
+The query string should have two arguments: apikey=72bc447a and t=the+social+network. You can combine them as follows: apikey=72bc447a&t=the+social+network.
+44. Print the text of the response object r by using its text attribute and passing the result to the print() function.
+
+# Import requests package
+import requests
+
+# Assign URL to variable: url
+url = 'http://www.omdbapi.com?apikey=72bc447a&t=the+social+network'
+
+# Package the request, send the request and catch the response: r
+r = requests.get(url)
+
+# Print the text of the response
+print(r.text)
+
+
+45. Pass the variable url to the requests.get() function in order to send the relevant request and catch the response, 
+assigning the resultant response message to the variable r.
+46. Apply the json() method to the response object r and store the resulting dictionary in the variable json_data.
+47. Hit submit to print the key-value pairs of the dictionary json_data to the shell.
+
+# Import package
+import requests
+
+# Assign URL to variable: url
+url = 'http://www.omdbapi.com/?apikey=72bc447a&t=social+network'
+
+# Package the request, send the request and catch the response: r
+r = requests.get(url)
+
+# Decode the JSON data into a dictionary: json_data
+json_data = r.json()
+
+# Print each key-value pair in json_data
+for k in json_data.keys():
+    print(k + ': ', json_data[k])
+
+
+48. Assign the relevant URL to the variable url.
+49. Apply the json() method to the response object r and store the resulting dictionary in the variable json_data.
+50. The variable pizza_extract holds the HTML of an extract from Wikipedia's Pizza page as a string; use the function print() to print this string to the shell.
+
+# Import package
+import requests
+
+# Assign URL to variable: url
+url = 'https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=pizza'
+
+# Package the request, send the request and catch the response: r
+r = requests.get(url)
+
+# Decode the JSON data into a dictionary: json_data
+json_data = r.json()
+
+# Print the Wikipedia page extract
+pizza_extract = json_data['query']['pages']['24768']['extract']
+print(pizza_extract)
+
+51. Create your Stream object with the credentials given.
+52. Filter your Stream variable for the keywords "clinton", "trump", "sanders", and "cruz".
+
+# Store credentials in relevant variables
+consumer_key = "nZ6EA0FxZ293SxGNg8g8aP0HM"
+consumer_secret = "fJGEodwe3KiKUnsYJC3VRndj7jevVvXbK2D5EiJ2nehafRgA6i"
+access_token = "1092294848-aHN7DcRP9B4VMTQIhwqOYiB14YkW92fFO8k8EPy"
+access_token_secret = "X4dHmhPfaksHcQ7SCbmZa2oYBBVSD2g8uIHXsp5CTaksx"
+
+# Create your Stream object with credentials
+stream = tweepy.Stream(consumer_key, consumer_secret, access_token, access_token_secret)
+
+# Filter your Stream variable
+stream.filter(track=['clinton','trump','sanders','cruz'])
+
+53. Assign the filename 'tweets.txt' to the variable tweets_data_path.
+54. Initialize tweets_data as an empty list to store the tweets in.
+55. Within the for loop initiated by for line in tweets_file:, load each tweet into a variable, tweet, using json.loads(), 
+then append tweet to tweets_data using the append() method.
+56. Hit submit and check out the keys of the first tweet dictionary printed to the shell.
+
+# Import package
+import json
+
+# String of path to file: tweets_data_path
+tweets_data_path = 'tweets.txt'
+
+# Initialize empty list to store tweets: tweets_data
+tweets_data = []
+
+# Open connection to file
+tweets_file = open(tweets_data_path, "r")
+
+# Read in tweets and store in list: tweets_data
+for line in tweets_file:
+    tweet = json.loads(line)
+    tweets_data.append(tweet)
+
+# Close connection to file
+tweets_file.close()
+
+# Print the keys of the first tweet dict
+print(tweets_data[0].keys())
+
+
